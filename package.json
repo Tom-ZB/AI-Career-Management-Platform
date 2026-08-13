@@ -1,0 +1,31 @@
+{
+  "name": "ai-career-management-platform",
+  "version": "1.0.0",
+  "description": "AI Career Management Platform - Full Stack Application",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd apps/backend && uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000",
+    "dev:frontend": "cd apps/frontend && npm run dev",
+    "install:all": "npm install && cd apps/frontend && npm install",
+    "build": "cd apps/frontend && npm run build",
+    "lint": "cd apps/frontend && npm run lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "career",
+    "ai",
+    "job",
+    "resume",
+    "fastapi",
+    "react"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

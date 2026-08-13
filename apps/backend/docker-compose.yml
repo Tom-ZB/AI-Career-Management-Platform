@@ -1,0 +1,91 @@
+# ============================================================
+# Docker Compose - AI Career Management Platform
+# ============================================================
+# Usage:
+#   docker-compose up -d          # Start all services
+#   docker-compose up -d mysql    # Start only MySQL
+#   docker-compose down           # Stop all services
+# ============================================================
+
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: career-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-password}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-ai_career_platform}
+      MYSQL_USER: ${MYSQL_USER:-career_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-career_password}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+    command: --default-authentication-plugin=mysql_native_password
+              --character-set-server=utf8mb4
+              --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-password}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # FastAPI Backend
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: career-backend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=mysql+pymysql://${MYSQL_USER:-career_user}:${MYSQL_PASSWORD:-career_password}@mysql:3306/${MYSQL_DATABASE:-ai_career_platform}
+      - ENVIRONMENT=${ENVIRONMENT:-development}
+      - DEBUG=${DEBUG:-true}
+      - SECRET_KEY=${SECRET_KEY:-change-me-in-production}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-change-me-in-production}
+      - LLM_PROVIDER=${LLM_PROVIDER:-deepseek}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - STORAGE_TYPE=${STORAGE_TYPE:-local}
+      - LOCAL_STORAGE_PATH=/app/uploads
+    volumes:
+      - ./uploads:/app/uploads
+      - ./backend:/app/backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+    command: >
+      sh -c "
+        echo 'Waiting for MySQL...' &&
+        echo 'Starting FastAPI server...' &&
+        uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+      "
+
+  # React Frontend (development)
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: career-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      - VITE_API_URL=http://localhost:8000/api/v1
+    volumes:
+      - ../frontend/src:/app/src
+      - ../frontend/public:/app/public
+    depends_on:
+      - backend
+    command: npm run dev -- --host 0.0.0.0
+
+volumes:
+  mysql_data:
+    driver: local
