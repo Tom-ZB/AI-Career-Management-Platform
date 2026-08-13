@@ -78,8 +78,13 @@ export interface CV {
   is_ai_generated: boolean;
   target_job_title: string | null;
   target_company: string | null;
+  target_industry: string | null;
   file_name: string | null;
   file_type: string | null;
+  file_size: number | null;
+  uploaded_at: string | null;
+  ai_parsed_data: Record<string, any> | null;
+  ai_keywords: string[] | null;
   ai_score: number | null;
   ai_summary: string | null;
   content_text: string | null;
@@ -94,6 +99,7 @@ export interface CVList {
   is_ai_generated: boolean;
   ai_score: number | null;
   created_at: string;
+  updated_at: string;
 }
 
 // Job Opportunity

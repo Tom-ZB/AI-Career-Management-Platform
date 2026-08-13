@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Viewer Test</title>
+    <style>
+        body { font-family: system-ui, sans-serif; padding: 2rem; }
+        .card { border: 1px solid #ddd; padding: 1rem; margin: 1rem 0; border-radius: 8px; }
+        .badge { display: inline-block; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.875rem; }
+        .badge-purple { background: #f3e8ff; color: #7c3aed; }
+        .skill { display: inline-block; padding: 0.25rem 0.5rem; background: #eff6ff; color: #2563eb; border-radius: 4px; margin: 0.125rem; }
+        .experience-item { border-left: 2px solid #e5e7eb; padding-left: 0.75rem; margin: 0.5rem 0; }
+        button { padding: 0.5rem 1rem; margin: 0.25rem; border-radius: 6px; border: 1px solid #ddd; cursor: pointer; }
+        button:hover { background: #f5f5f5; }
+        pre { background: #f9fafb; padding: 1rem; border-radius: 6px; overflow: auto; max-height: 300px; }
+    </style>
+</head>
+<body>
+    <h1>CV Viewer Test Cases</h1>
+
+    <!-- Test Case 1: AI-Generated CV with Parsed Data -->
+    <div class="card">
+        <h2>Test 1: AI-Generated CV with Structured Data</h2>
+        <span class="badge badge-purple">✨ AI-Generated CV</span>
+        <div style="margin-top: 1rem;">
+            <h4 style="margin-bottom: 0.5rem;">Professional Summary</h4>
+            <p style="font-size: 0.875rem; color: #4b5563;">Experienced software engineer with expertise in full-stack development...</p>
+        </div>
+        <div style="margin-top: 1rem;">
+            <h4 style="margin-bottom: 0.5rem;">Skills</h4>
+            <div>
+                <span class="skill">TypeScript</span>
+                <span class="skill">React</span>
+                <span class="skill">Python</span>
+                <span class="skill">FastAPI</span>
+            </div>
+        </div>
+        <div style="margin-top: 1rem;">
+            <h4 style="margin-bottom: 0.5rem;">Work Experience</h4>
+            <div class="experience-item">
+                <p style="font-size: 0.875rem; font-weight: 500;">Senior Software Engineer • Tech Corp</p>
+                <p style="font-size: 0.75rem; color: #6b7280;">Jan 2022 - Present • New York</p>
+                <p style="font-size: 0.875rem; color: #4b5563; margin-top: 0.25rem;">Led development of microservices architecture...</p>
+            </div>
+        </div>
+        <div style="margin-top: 1rem;">
+            <h4 style="margin-bottom: 0.5rem;">Education</h4>
+            <div class="experience-item">
+                <p style="font-size: 0.875rem; font-weight: 500;">Master of Science in Computer Science</p>
+                <p style="font-size: 0.75rem; color: #6b7280;">University of Technology • 2018 - 2020</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Case 2: Uploaded CV with Extracted Text -->
+    <div class="card">
+        <h2>Test 2: Uploaded CV with Extracted Text</h2>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+            <span>📄</span>
+            <span style="font-size: 0.875rem; font-weight: 500; color: #4b5563;">Extracted Text Content</span>
+        </div>
+        <pre style="font-size: 0.875rem; color: #4b5563;">JOHN DOE
+Senior Software Engineer
+
+Email: john.doe@example.com
+Phone: (555) 123-4567
+
+PROFESSIONAL SUMMARY
+Experienced software engineer with 5+ years of experience...
+
+SKILLS
+- Programming Languages: Python, JavaScript, TypeScript
+- Frameworks: React, FastAPI, Django
+- Tools: Docker, Kubernetes, AWS
+
+WORK EXPERIENCE
+Senior Software Engineer | Tech Corp | 2022-Present
+- Led development of...
+
+Software Engineer | Startup Inc | 2020-2022
+- Built RESTful APIs...</pre>
+    </div>
+
+    <!-- Test Case 3: Analyzed CV with Score but No Structured Data -->
+    <div class="card">
+        <h2>Test 3: Analyzed CV (Score Only)</h2>
+        <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem;">
+            <span style="color: #16a34a;">📊</span>
+            <span style="font-size: 0.875rem; font-weight: 500; color: #16a34a;">Analyzed CV (Score: 78/100)</span>
+        </div>
+        <pre style="font-size: 0.875rem; color: #4b5563;">[Raw text content of the CV...]
+This CV has been analyzed and scored at 78/100,
+but no structured data was extracted.</pre>
+    </div>
+
+    <!-- Test Case 4: No Content Available -->
+    <div class="card">
+        <h2>Test 4: No Content Available</h2>
+        <div style="text-align: center; padding: 2rem;">
+            <span style="font-size: 3rem; color: #d1d5db;">📄</span>
+            <p style="font-size: 0.875rem; color: #6b7280;">No content available for this CV</p>
+            <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.5rem;">Try uploading a PDF/DOCX file or analyzing the CV</p>
+        </div>
+    </div>
+
+    <h2>Analysis Tab Test Cases</h2>
+
+    <!-- Test Case 5: Analysis Results -->
+    <div class="card">
+        <h2>Test 5: CV Analysis Results</h2>
+        <div style="text-align: center; padding: 1rem;">
+            <div style="font-size: 3rem; font-weight: bold; color: #ca8a04;">78</div>
+            <p style="font-size: 0.875rem; color: #6b7280;">Overall Score</p>
+        </div>
+        <div style="margin-top: 1rem;">
+            <h4 style="font-size: 0.875rem; font-weight: 600; color: #374151;">Dimension Scores</h4>
+            <div style="margin-top: 0.5rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.25rem;">
+                    <span style="color: #4b5563;">Structure & Formatting</span>
+                    <span style="font-weight: 500;">8/10</span>
+                </div>
+                <div style="background: #e5e7eb; border-radius: 9999px; height: 8px;">
+                    <div style="background: #16a34a; border-radius: 9999px; height: 8px; width: 80%;"></div>
+                </div>
+            </div>
+            <div style="margin-top: 0.5rem;">
+                <div style="display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.25rem;">
+                    <span style="color: #4b5563;">Content Quality</span>
+                    <span style="font-weight: 500;">7/10</span>
+                </div>
+                <div style="background: #e5e7eb; border-radius: 9999px; height: 8px;">
+                    <div style="background: #ca8a04; border-radius: 9999px; height: 8px; width: 70%;"></div>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top: 1rem;">
+            <h4 style="font-size: 0.875rem; font-weight: 600; color: #15803d;">Strengths</h4>
+            <ul style="font-size: 0.875rem; color: #4b5563; padding-left: 1.25rem;">
+                <li>Well-structured format with clear sections</li>
+                <li>Quantifiable achievements included</li>
+                <li>Relevant technical skills highlighted</li>
+            </ul>
+        </div>
+        <div style="margin-top: 1rem;">
+            <h4 style="font-size: 0.875rem; font-weight: 600; color: #dc2626;">Areas for Improvement</h4>
+            <ul style="font-size: 0.875rem; color: #4b5563; padding-left: 1.25rem;">
+                <li>Add more metrics to quantify impact</li>
+                <li>Include keywords from target job descriptions</li>
+            </ul>
+        </div>
+        <div style="margin-top: 1rem;">
+            <h4 style="font-size: 0.875rem; font-weight: 600; color: #2563eb;">Suggestions</h4>
+            <ul style="font-size: 0.875rem; color: #4b5563; padding-left: 1.25rem;">
+                <li>Consider adding a portfolio link</li>
+                <li>Update skills section with emerging technologies</li>
+            </ul>
+        </div>
+        <div style="margin-top: 1rem;">
+            <h4 style="font-size: 0.875rem; font-weight: 600; color: #374151;">Keywords</h4>
+            <div style="margin-top: 0.5rem;">
+                <span class="skill">JavaScript</span>
+                <span class="skill">TypeScript</span>
+                <span class="skill">React</span>
+                <span class="skill">Node.js</span>
+                <span class="skill">AWS</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Test Case 6: No Analysis Yet -->
+    <div class="card">
+        <h2>Test 6: No Analysis Yet</h2>
+        <div style="text-align: center; padding: 2rem;">
+            <span style="font-size: 3rem; color: #d1d5db;">📊</span>
+            <p style="font-size: 0.875rem; color: #6b7280;">This CV has not been analyzed yet</p>
+            <p style="font-size: 0.75rem; color: #9ca3af; margin-top: 0.5rem;">Click the button below to get AI-powered feedback</p>
+            <button style="margin-top: 1rem; background: #3b82f6; color: white; border: none;">
+                📊 Analyze CV
+            </button>
+        </div>
+    </div>
+
+    <p style="margin-top: 2rem; color: #6b7280; font-size: 0.875rem;">
+        This page shows expected UI states for CV viewing and analysis in the CVManager component.
+    </p>
+</body>
+</html>

@@ -144,8 +144,22 @@ class AICVService:
             keywords = []
 
         cv.ai_keywords = keywords
-        cv.ai_summary = result.get("summary", result.get("Strengths", ""))
-        cv.ai_score = result.get("overall_score", result.get("Overall Score", 0))
+
+        # Handle ai_summary - must be a string for Text column
+        summary_value = result.get("summary", result.get("strengths", result.get("Strengths", "")))
+        if isinstance(summary_value, list):
+            # Convert list of strings to a single joined string
+            cv.ai_summary = "\n".join(summary_value) if summary_value else ""
+        else:
+            cv.ai_summary = str(summary_value) if summary_value else ""
+
+        # Handle ai_score - ensure it's an integer
+        score_value = result.get("overall_score", result.get("Overall Score", 0))
+        try:
+            cv.ai_score = int(score_value) if score_value else 0
+        except (ValueError, TypeError):
+            cv.ai_score = 0
+
         cv.ai_parsed_data = result
         self.db.commit()
 
