@@ -1,13 +1,28 @@
 on: push
 
 jobs:
-  job1:
+  frontend:
     runs-on: ubuntu-latest
-    steps:
-      - run: pwd
-      - run: ls
 
-  job2:
-    runs-on: ubuntu-latest
     steps:
-      - run: node --version
+      # 下载 GitHub 仓库代码 到runner中
+      - uses: actions/checkout@v4
+
+      # 设置 Node.js 环境 这里指定node.js版本 强烈建议进行指定避免版本冲突
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # 指定 Node.js 版本
+          node-version: 20
+
+      # 安装前端依赖
+      - name: Install dependencies
+	# 切换路径到前端代码下
+        working-directory: apps/frontend
+        run: npm install
+
+      # 构建前端项目
+      - name: Build frontend
+	# 切换路径到前端代码下
+        working-directory: apps/frontend
+        run: npm run build
