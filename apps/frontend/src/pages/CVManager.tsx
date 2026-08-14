@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   FileText, Upload, Star, Sparkles, Plus, Trash2,
@@ -23,7 +23,7 @@ export default function CVManager() {
   const [showGenerateModal, setShowGenerateModal] = useState(false);
   const [generatingCV, setGeneratingCV] = useState<number | null>(null);
   const [selectedJob, setSelectedJob] = useState<number | null>(null);
-  const uploadInputRef = useState<HTMLInputElement | null>(null);
+  const uploadInputRef = useRef<HTMLInputElement>(null);
 
   const { data: cvs, isLoading: cvsLoading } = useQuery({
     queryKey: ['cvs'],
@@ -203,7 +203,7 @@ export default function CVManager() {
 
       {/* Hidden file input */}
       <input
-        ref={(el) => uploadInputRef.current = el}
+        ref={uploadInputRef}
         type="file"
         accept=".pdf,.docx,.doc"
         className="hidden"
@@ -612,7 +612,7 @@ function CVAnalysisTab({ cv, analysisResult, onAnalyze, isAnalyzing }: {
               {Object.entries(result.dimensions).map(([key, value]: [string, any]) => (
                 <div key={key}>
                   <div className="flex justify-between text-sm mb-1">
-                    <span className="text-gray-600">{key.replace(/_/g, ' ').replace(/\b\w/g (l) => l.toUpperCase())}</span>
+                    <span className="text-gray-600">{key.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())}</span>
                     <span className="font-medium text-gray-900">{typeof value === 'number' ? `${value}/10` : String(value)}</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
@@ -822,11 +822,11 @@ function CVCard({
 // ============================================================
 // Metadata Item Helper
 // ============================================================
-function MetadataItem({ label, value }: { label: string; value?: React.ReactNode }) {
+function MetadataItem({ label, value, children }: { label: string; value?: React.ReactNode; children?: React.ReactNode }) {
   return (
     <div>
       <p className="text-xs text-gray-500 mb-0.5">{label}</p>
-      <p className="text-sm text-gray-900">{value || 'N/A'}</p>
+      {children || <p className="text-sm text-gray-900">{value ?? 'N/A'}</p>}
     </div>
   );
 }

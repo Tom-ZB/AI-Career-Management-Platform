@@ -167,6 +167,7 @@ export interface Interview {
   status: InterviewStatus;
   rating: number | null;
   feedback: string | null;
+  notes: string | null;
   created_at: string;
 }
 
@@ -180,11 +181,13 @@ export interface FollowUp {
   application_id: number | null;
   follow_up_type: FollowUpType;
   title: string | null;
+  description: string | null;
   priority: number;
   scheduled_at: string;
   status: FollowUpStatus;
   contact_person: string | null;
   completed_at: string | null;
+  notes: string | null;
   created_at: string;
 }
 
