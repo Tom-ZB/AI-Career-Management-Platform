@@ -3,6 +3,9 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 export default defineConfig({
+    // GitHub Pages 部署路径
+  base: '/AI-Career-Management-Platform/',
+  
   plugins: [react()],
   resolve: {
     alias: {
