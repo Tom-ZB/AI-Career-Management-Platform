@@ -33,6 +33,11 @@ jobs:
         # 切换路径到前端代码下
         working-directory: apps/frontend
         run: npm run build
+        env:
+          # 设置环境变量
+          VITE_API_URL: ${{ vars.VITE_API_URL }}
+   
+        
 
       # 配置 GitHub Pages
       - name: Setup Pages
