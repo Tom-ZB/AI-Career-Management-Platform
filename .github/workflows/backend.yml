@@ -1,26 +1,39 @@
 on: push
-
 jobs:
   backend:
     runs-on: ubuntu-latest
-
     steps:
       # 下载 GitHub 仓库代码到 runner
       - uses: actions/checkout@v4
-
       # 设置 Python 环境
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           # 指定 Python 版本
           python-version: "3.12"
-
       # 安装后端依赖
       - name: Install dependencies
         working-directory: apps/backend
         run: pip install -r requirements.txt
-
       # 检查 Python 文件是否存在语法错误
       - name: Check Python syntax
         working-directory: apps/backend
         run: python -m compileall .
+
+  deploy:
+    needs: backend
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Deploy to Azure VM
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VM_HOST }}
+          username: ${{ secrets.VM_USER }}
+          key: ${{ secrets.VM_SSH_KEY }}
+          script: |
+            cd ~/myproject/apps/backend
+            git pull origin main
+            source venv/bin/activate
+            pip install -r requirements.txt
+            sudo systemctl restart backend
